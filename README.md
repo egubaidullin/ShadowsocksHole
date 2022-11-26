@@ -1,0 +1,2 @@
+# shadowsockhole
+shadowsock+pihole+unbound
