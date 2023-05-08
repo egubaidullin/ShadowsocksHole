@@ -71,3 +71,6 @@ source .env
 
 # Echo the value of the PASSWORD variable
 echo "Your password is $PASSWORD. Please remember to save it somewhere safe."
+
+# Echo the current IP Address
+curl -s checkip.dyndns.org | sed -e 's/.*Current IP Address: //' -e 's/<.*$//'
