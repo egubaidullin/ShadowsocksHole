@@ -1,5 +1,4 @@
 #!/bin/sh
-set -e
 
 # Check if Docker is installed
 if ! command -v docker &> /dev/null
@@ -19,32 +18,23 @@ else
 fi
 
 
-
 get_latest_release() {
    curl -sL https://api.github.com/repos/$1/releases/latest | grep '"tag_name":' | cut -d'"' -f4
 }
 COMPOSE_LATEST_VERSION=$(get_latest_release "docker/compose")
 echo "Docker compose plugin latest version: $COMPOSE_LATEST_VERSION"
 
-
-
-# Check if Docker Compose is installed
 if ! command -v docker-compose &> /dev/null
 then
     echo "Docker Compose is not installed. Installing Docker Compose..."
-    
-    # Download Docker Compose binary
     sudo curl -L "https://github.com/docker/compose/releases/download/$COMPOSE_LATEST_VERSION/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-
-    # Set executable permissions on the Docker Compose binary
     sudo chmod +x /usr/local/bin/docker-compose
-
     echo "Docker Compose installed successfully!"
 else
     echo "Docker Compose is already installed."
 fi
 
-
+# Add variables to .env file
 filename=.env
 if [ -f $filename ]; then
     echo ".env file already exists."
@@ -53,12 +43,17 @@ else
     echo ".env file created successfully."
 fi
 
-export PASSWORD=$(date +%s|sha256sum|base64|head -c 32)
-echo 'PASSWORD='$PASSWORD > .env
+# Check if the PASSWORD variable exists in the .env file
+if ! grep -q "^PASSWORD=" "$filename"; then
+    export PASSWORD=$(date +%s|sha256sum|base64|head -c 32)
+    echo 'PASSWORD='$PASSWORD >> $filename
+fi
 
-export TZ=$(cat /etc/timezone)
-echo 'TZ='$TZ >> .env
-
+# Check if the TZ variable exists in the .env file
+if ! grep -q "^TZ=" "$filename"; then
+    export TZ=$(cat /etc/timezone)
+    echo 'TZ='$TZ >> $filename
+fi
 
 # Check if docker-compose.yml file exists
 if [ -f docker-compose.yml ]
@@ -70,3 +65,9 @@ then
 else
     echo "docker-compose.yml file not found."
 fi
+
+# Load variables from .env file
+source .env
+
+# Echo the value of the PASSWORD variable
+echo "Your password is $PASSWORD. Please remember to save it somewhere safe."
