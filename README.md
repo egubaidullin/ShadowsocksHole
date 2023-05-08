@@ -1,2 +1,2 @@
 # shadowsockhole
-shadowsock+pihole+unbound
+Shadowsock+pihole+unbound setup script for Ubuntu Docker.
