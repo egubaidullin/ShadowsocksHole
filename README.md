@@ -28,7 +28,7 @@ After running the installation script, containers are deployed using `docker-com
 To check the IP address of the Shadowsocks server, use:
 ```bash
 curl -s checkip.dyndns.org | sed -e 's/.*Current IP Address: //' -e 's/<.*$//'
-
+```
 Configure your browser or app with the following settings:
 
 SOCKS5 proxy IP: [Shadowsocks server IP]
