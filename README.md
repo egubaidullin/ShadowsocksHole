@@ -1,4 +1,4 @@
-# Shadowsock+pihole+unbound Docker.
+# ShadowsocksHole = Shadowsock+Pihole+Unbound+Installer Script
 
 ## What is it
 Shadowsockshole is a repository for deploying a Shadowsocks encrypted tunnel along with Unbound DNS server and Pi-hole ad blocker using Docker containers. It allows accessing blocked internet resources by routing DNS queries and traffic through an encrypted Shadowsocks tunnel.
