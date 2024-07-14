@@ -61,5 +61,3 @@ Describes containers:
 
 This setup allows Unbound to accept queries from the local network, cache responses, and forward the rest via the encrypted SOCKS5 tunnel of Shadowsocks, bypassing blocks.
 
-## Authorship
-Gubaidullin Eduard
